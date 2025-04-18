@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
 
-mix.js('firstwebsite/resources/js/app.js', 'public/js') // Corrected path
-   .sass('firstwebsite/resources/sass/app.scss', 'public/css'); // Corrected path
+mix.js('resources/js/app.js', 'public/js')
+   .sass('resources/sass/app.scss', 'public/css');
+   

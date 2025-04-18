@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
@@ -10,25 +13,40 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ReportController;
 
-// Dashboard
+// Redirect to login or dashboard depending on auth status
 Route::get('/', function () {
-    return view('welcome');
-})->name('dashboard');
+    return Auth::check() ? redirect('/dashboard') : redirect('/login');
+});
 
+// Everything inside this middleware requires login
+Route::middleware(['auth'])->group(function () {
 
-// User Management
-Route::resource('roles', RoleController::class);
-Route::resource('users', UserController::class);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-// Expense & Income Categories
-Route::resource('expense_categories', ExpenseCategoryController::class);
-Route::resource('income_categories', IncomeCategoryController::class);
+    // Logout Route
+    Route::post('/logout', function () {
+        Auth::logout();
+        return redirect('/login');
+    })->name('logout');
 
-// Expenses & Income
-Route::resource('expenses', ExpenseController::class);
-Route::resource('income', IncomeController::class);
+    // Profile management
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-// Reports
-Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
+    // Your App Routes
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
+    Route::resource('permissions', PermissionController::class);
+    Route::resource('expense_categories', ExpenseCategoryController::class);
+    Route::resource('income_categories', IncomeCategoryController::class);
+    Route::resource('expenses', ExpenseController::class);
+    Route::resource('income', IncomeController::class);
 
+    // Report
+    Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
+});
 
+require __DIR__.'/auth.php';

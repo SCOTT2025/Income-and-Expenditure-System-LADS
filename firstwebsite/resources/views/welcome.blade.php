@@ -1,69 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Income And Expenditure System</title>
 
     <!-- ✅ Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
+    <main class="container-fluid">
+        <div class="row">
 
-<main class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 bg-dark text-white vh-100 sidebar p-3">
-            <h5 class="text-white mb-4">Dashboard</h5>
-            <ul class="nav flex-column">
-                <!-- User Management -->
-                <li class="nav-item">
-                    <a class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse" href="#userManagement" role="button" aria-expanded="false" aria-controls="userManagement">
-                        👥 User Management
-                    </a>
-                    <div class="collapse" id="userManagement">
-                        <ul class="nav flex-column ms-3">
-                            <li><a href="{{ route('roles.index') }}" class="nav-link text-white"># Roles</a></li>
-                            <li><a href="{{ route('users.index') }}" class="nav-link text-white">Users</a></li>
-                        </ul>
-                    </div>
-                </li>
+            @auth
+                <!-- Sidebar (only for authenticated users) -->
+                <div class="col-md-3 col-lg-2 bg-dark text-white vh-100 sidebar p-3">
+                    <h4 class="text-white fw-bold mb-4">EXPENSE TRACKER</h4>
+                    <ul class="nav flex-column">
+                        <!-- User Management -->
+                        <li class="nav-item mb-2">
+                            <a class="nav-link text-white d-flex justify-content-between align-items-center"
+                                data-bs-toggle="collapse" href="#userManagement" role="button" aria-expanded="false"
+                                aria-controls="userManagement">
+                                <span>👥 User Management</span>
+                                <span class="ms-2">&#9662;</span>
+                            </a>
+                            <div class="collapse" id="userManagement">
+                                <ul class="nav flex-column ms-3 mt-1">
 
-                <!-- Expense Category -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('expense_categories.index') }}">Expense Category</a>
-                </li>
+                                    <li>
+                                        <a href="{{ route('permissions.index') }}" class="nav-link text-white">🔑 Permissions</a>
+                                    </li>
 
-                <!-- Income Category -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('income_categories.index') }}">Income Category</a>
-                </li>
+                                    <li>
+                                        <a href="{{ route('roles.index') }}" class="nav-link text-white">🔐 Roles</a>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="{{ route('users.index') }}" class="nav-link text-white">🙋 Users</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
 
-                <!-- Expenses -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('expenses.index') }}">Expenses</a>
-                </li>
+                        <li class="nav-item">
+                            <a href="{{ route('expense_categories.index') }}" class="nav-link text-white">📂 Expense Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('income_categories.index') }}" class="nav-link text-white">💼 Income Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('expenses.index') }}" class="nav-link text-white">💸 Expenses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('income.index') }}" class="nav-link text-white">📥 Income</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('reports.monthly') }}" class="nav-link text-white">📊 Monthly Report</a>
+                        </li>
 
-                <!-- Income -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('income.index') }}">Income</a>
-                </li>
+                        <!-- ✅ Logout Button -->
+                        <li class="nav-item mt-3">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="btn btn-danger w-100">🚪 Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
 
-                <!-- Monthly Report -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('reports.monthly') }}">Monthly Report</a>
-                </li>
-            </ul>
+                <!-- Main content (only for authenticated users) -->
+                <div class="col-md-9 col-lg-10 p-4 bg-light">
+                    @yield('content')
+                </div>
+            @endauth
+
         </div>
+    </main>
 
-        <!-- Main Content -->
-        <div class="col-md-9 col-lg-10 p-4 bg-light">
-            @yield('content')
-        </div>
-    </div>
-</main>
-
-<!-- ✅ Bootstrap Bundle JS (includes Popper.js) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ✅ Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
