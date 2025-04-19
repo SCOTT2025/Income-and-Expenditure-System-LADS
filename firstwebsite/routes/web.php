@@ -43,16 +43,21 @@ Route::middleware(['auth'])->group(function () {
 
     // User management
     Route::resource('users', UserController::class);
+    Route::post('users/bulk-delete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
 
     // Permission management
     Route::resource('permissions', PermissionController::class);
     Route::post('permissions/bulk-delete', [PermissionController::class, 'bulkDelete'])->name('permissions.bulkDelete');
 
-    // Expense/Income categories
-    Route::resource('expense_categories', ExpenseCategoryController::class);
-    Route::resource('income_categories', IncomeCategoryController::class);
+    // Expense Category
+    Route::resource('expense-categories', ExpenseCategoryController::class);
+    Route::post('expense-categories/bulk-delete', [ExpenseCategoryController::class, 'bulkDelete'])->name('expense-categories.bulkDelete');
 
-    // Expense/Income entries
+    // ✅ Income Category (updated to match Expense Category structure)
+    Route::resource('income_categories', IncomeCategoryController::class);
+    Route::post('income_categories/bulk-delete', [IncomeCategoryController::class, 'bulkDelete'])->name('income_categories.bulkDelete');
+
+    // Expense and Income entries
     Route::resource('expenses', ExpenseController::class);
     Route::resource('income', IncomeController::class);
 
@@ -60,5 +65,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
 });
 
-// Auth scaffolding (Breeze/Fortify)
+// Auth scaffolding (Laravel Breeze)
 require __DIR__.'/auth.php';

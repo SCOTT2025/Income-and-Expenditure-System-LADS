@@ -1,6 +1,101 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Expenses-CATEGORIES </h1>
-    <p>This is the Expenses page.</p>
+<div class="container-fluid">
+    <h3 class="mb-4">Expense Category List</h3>
+
+    <div class="d-flex mb-3 gap-2">
+        <a href="{{ route('expense-categories.create') }}" class="btn btn-success">Add Expense Category</a>
+        <button class="btn btn-danger" id="bulk-delete">Delete selected</button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered table-striped table-hover" id="categoriesTable">
+                <thead>
+                    <tr>
+                        <th width="10"><input type="checkbox" id="select-all"></th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($categories as $category)
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox" value="{{ $category->id }}"></td>
+                            <td>{{ $category->id }}</td>
+                            <td>{{ $category->name }}</td>
+                            <td>
+                                <a href="{{ route('expense-categories.show', $category->id) }}" class="btn btn-sm btn-primary">View</a>
+                                <a href="{{ route('expense-categories.edit', $category->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                <form action="{{ route('expense-categories.destroy', $category->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script>
+    $(function () {
+        let table = $('#categoriesTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                { extend: 'excelHtml5', text: 'Export to Excel', className: 'btn btn-success' },
+                { extend: 'print', text: 'Print Table', className: 'btn btn-secondary' }
+            ],
+            order: [[1, 'desc']],
+            columnDefs: [{ orderable: false, targets: [0, 3] }]
+        });
+
+        $('#select-all').on('click', function () {
+            $('.row-checkbox').prop('checked', this.checked);
+        });
+
+        $('#bulk-delete').on('click', function () {
+            const selected = $('.row-checkbox:checked').map(function () {
+                return $(this).val();
+            }).get();
+
+            if (selected.length === 0) {
+                alert('Select at least one category to delete.');
+                return;
+            }
+
+            if (confirm('Are you sure to delete selected categories?')) {
+                $.ajax({
+                    url: '{{ route("expense-categories.bulkDelete") }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        ids: selected
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+@endpush

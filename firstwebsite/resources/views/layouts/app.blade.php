@@ -41,8 +41,9 @@
                             </div>
                         </li>
 
+                        <!-- Category and Transaction Links -->
                         <li class="nav-item">
-                            <a href="{{ route('expense_categories.index') }}" class="nav-link text-white">📂 Expense Category</a>
+                            <a href="{{ route('expense-categories.index') }}" class="nav-link text-white">📂 Expense Category</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('income_categories.index') }}" class="nav-link text-white">💼 Income Category</a>
