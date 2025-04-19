@@ -1,22 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.app') {{-- or 'layouts.main' if you're using a custom layout --}}
 
 @section('content')
 <div class="container-fluid">
     <h3 class="mb-4">Permission List</h3>
 
     <div class="d-flex mb-3 gap-2">
-        <a href="{{ route('permissions.create') }}" class="btn btn-success">Add Permission</a>
+        <a href="{{ route('permissions.create') }}" class="btn btn-success">Create Permission</a>
         <button class="btn btn-danger" id="bulk-delete">Delete selected</button>
     </div>
+
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
     <div class="card">
         <div class="card-body">
             <table class="table table-bordered table-striped table-hover" id="permissionsTable">
                 <thead>
                     <tr>
-                        <th width="10">
-                            <input type="checkbox" id="select-all">
-                        </th>
+                        <th width="10"><input type="checkbox" id="select-all"></th>
                         <th>ID</th>
                         <th>Title</th>
                         <th></th>
@@ -25,9 +27,7 @@
                 <tbody>
                     @foreach($permissions as $permission)
                         <tr>
-                            <td>
-                                <input type="checkbox" class="row-checkbox" value="{{ $permission->id }}">
-                            </td>
+                            <td><input type="checkbox" class="row-checkbox" value="{{ $permission->id }}"></td>
                             <td>{{ $permission->id }}</td>
                             <td>{{ $permission->name }}</td>
                             <td>
@@ -60,7 +60,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- Buttons functionality -->
+<!-- Buttons -->
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
@@ -72,21 +72,11 @@
         let table = $('#permissionsTable').DataTable({
             dom: 'Bfrtip',
             buttons: [
-                {
-                    extend: 'excelHtml5',
-                    text: 'Export to Excel',
-                    className: 'btn btn-success'
-                },
-                {
-                    extend: 'print',
-                    text: 'Print Table',
-                    className: 'btn btn-secondary'
-                }
+                { extend: 'excelHtml5', text: 'Export to Excel', className: 'btn btn-success' },
+                { extend: 'print', text: 'Print Table', className: 'btn btn-secondary' }
             ],
             order: [[1, 'asc']],
-            columnDefs: [
-                { orderable: false, targets: [0, 3] }
-            ]
+            columnDefs: [{ orderable: false, targets: [0, 3] }]
         });
 
         $('#select-all').on('click', function () {
