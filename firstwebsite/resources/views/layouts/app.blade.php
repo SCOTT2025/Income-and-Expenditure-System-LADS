@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Income And Expenditure System</title>
+
+    <!-- ✅ Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -12,22 +14,29 @@
         <div class="row">
 
             @auth
-                <!-- Sidebar (only for logged-in users) -->
+                <!-- Sidebar (only for authenticated users) -->
                 <div class="col-md-3 col-lg-2 bg-dark text-white vh-100 sidebar p-3">
                     <h4 class="text-white fw-bold mb-4">EXPENSE TRACKER</h4>
                     <ul class="nav flex-column">
+                        <!-- User Management -->
                         <li class="nav-item mb-2">
                             <a class="nav-link text-white d-flex justify-content-between align-items-center"
-                               data-bs-toggle="collapse" href="#userManagement" role="button" aria-expanded="false"
-                               aria-controls="userManagement">
+                                data-bs-toggle="collapse" href="#userManagement" role="button" aria-expanded="false"
+                                aria-controls="userManagement">
                                 <span>👥 User Management</span>
                                 <span class="ms-2">&#9662;</span>
                             </a>
                             <div class="collapse" id="userManagement">
                                 <ul class="nav flex-column ms-3 mt-1">
+
+                                    <li>
+                                        <a href="{{ route('permissions.index') }}" class="nav-link text-white">🔑 Permissions</a>
+                                    </li>
+
                                     <li>
                                         <a href="{{ route('roles.index') }}" class="nav-link text-white">🔐 Roles</a>
                                     </li>
+                                    
                                     <li>
                                         <a href="{{ route('users.index') }}" class="nav-link text-white">🙋 Users</a>
                                     </li>
@@ -51,6 +60,7 @@
                             <a href="{{ route('reports.monthly') }}" class="nav-link text-white">📊 Monthly Report</a>
                         </li>
 
+                        <!-- ✅ Logout Button -->
                         <li class="nav-item mt-3">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -60,23 +70,17 @@
                     </ul>
                 </div>
 
-                <!-- Main content (only for logged-in users) -->
+                <!-- Main content (only for authenticated users) -->
                 <div class="col-md-9 col-lg-10 p-4 bg-light">
                     @yield('content')
                 </div>
             @endauth
 
-            @guest
-                <!-- Show full-width content for guests (e.g. login/register pages) -->
-                <div class="col-12 p-0">
-                    @yield('content')
-                </div>
-            @endguest
-
         </div>
     </main>
 
+    <!-- ✅ Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 
+</body>
 </html>

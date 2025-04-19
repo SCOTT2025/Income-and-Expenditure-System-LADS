@@ -21,6 +21,7 @@ Route::get('/', function () {
 // Everything inside this middleware requires login
 Route::middleware(['auth'])->group(function () {
 
+    // Dashboard view
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -36,10 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Your App Routes
+    // App Resource Routes
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
+    Route::post('permissions/bulk-delete', [PermissionController::class, 'bulkDelete'])->name('permissions.bulkDelete');
     Route::resource('expense_categories', ExpenseCategoryController::class);
     Route::resource('income_categories', IncomeCategoryController::class);
     Route::resource('expenses', ExpenseController::class);
