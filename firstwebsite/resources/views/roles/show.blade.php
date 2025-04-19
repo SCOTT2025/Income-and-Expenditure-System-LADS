@@ -2,20 +2,15 @@
 
 @section('content')
 <div class="container">
-    <h1>Role Details</h1>
+    <h3 class="mb-4">Role: {{ $role->name }}</h3>
 
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ $role->name }}</h5>
-            <p class="card-text">
-                <strong>Permissions:</strong><br>
-                @foreach($role->permissions as $permission)
-                    <span class="badge bg-info text-dark">{{ $permission->name }}</span>
-                @endforeach
-            </p>
-        </div>
+    <div class="mb-3">
+        <strong>Permissions:</strong><br>
+        @foreach($role->permissions as $permission)
+            <span class="badge bg-info text-dark mb-1">{{ $permission->name }}</span>
+        @endforeach
     </div>
 
-    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Back to List</a>
+    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Back</a>
 </div>
 @endsection

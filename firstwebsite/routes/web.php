@@ -37,11 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Role management (no "admin" prefix, clean URLs like /roles)
+    // Role management
     Route::resource('roles', RoleController::class);
-    Route::delete('roles/mass-destroy', [RoleController::class, 'massDestroy'])->name('roles.massDestroy');
+    Route::post('roles/bulk-delete', [RoleController::class, 'bulkDelete'])->name('roles.bulkDelete');
 
-    //  User management
+    // User management
     Route::resource('users', UserController::class);
 
     // Permission management

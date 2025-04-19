@@ -19,7 +19,7 @@
                         </th>
                         <th>ID</th>
                         <th>Title</th>
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

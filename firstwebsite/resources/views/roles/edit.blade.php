@@ -2,14 +2,15 @@
 
 @section('content')
 <div class="container">
-    <h1>Edit Role</h1>
+    <h3 class="mb-4">Edit Role</h3>
 
-    <form action="{{ route('roles.update', $role) }}" method="POST">
+    <form action="{{ route('roles.update', $role->id) }}" method="POST">
         @csrf
         @method('PUT')
+
         <div class="mb-3">
-            <label for="title" class="form-label">Role Name</label>
-            <input type="text" name="title" class="form-control" value="{{ $role->name }}" required>
+            <label for="name" class="form-label">Role Title</label>
+            <input type="text" name="name" class="form-control" value="{{ $role->name }}" required>
         </div>
 
         <div class="mb-3">
@@ -18,10 +19,10 @@
                 @foreach($permissions as $permission)
                     <div class="col-md-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}"
-                                   id="perm{{ $permission->id }}"
-                                   {{ $role->permissions->contains($permission->id) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="perm{{ $permission->id }}">
+                            <input class="form-check-input" type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                id="perm_{{ $permission->id }}"
+                                {{ $role->permissions->contains('name', $permission->name) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="perm_{{ $permission->id }}">
                                 {{ $permission->name }}
                             </label>
                         </div>
