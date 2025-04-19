@@ -18,7 +18,7 @@ Route::get('/', function () {
     return Auth::check() ? redirect('/dashboard') : redirect('/login');
 });
 
-// Everything inside this middleware requires login
+// Everything below requires user to be authenticated
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard view
@@ -37,18 +37,28 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // App Resource Routes
+    // Role management (no "admin" prefix, clean URLs like /roles)
     Route::resource('roles', RoleController::class);
+    Route::delete('roles/mass-destroy', [RoleController::class, 'massDestroy'])->name('roles.massDestroy');
+
+    //  User management
     Route::resource('users', UserController::class);
+
+    // Permission management
     Route::resource('permissions', PermissionController::class);
     Route::post('permissions/bulk-delete', [PermissionController::class, 'bulkDelete'])->name('permissions.bulkDelete');
+
+    // Expense/Income categories
     Route::resource('expense_categories', ExpenseCategoryController::class);
     Route::resource('income_categories', IncomeCategoryController::class);
+
+    // Expense/Income entries
     Route::resource('expenses', ExpenseController::class);
     Route::resource('income', IncomeController::class);
 
-    // Report
+    // Reports
     Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
 });
 
+// Auth scaffolding (Breeze/Fortify)
 require __DIR__.'/auth.php';

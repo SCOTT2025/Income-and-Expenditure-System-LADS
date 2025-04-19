@@ -28,15 +28,12 @@
                             </a>
                             <div class="collapse" id="userManagement">
                                 <ul class="nav flex-column ms-3 mt-1">
-
                                     <li>
                                         <a href="{{ route('permissions.index') }}" class="nav-link text-white">🔑 Permissions</a>
                                     </li>
-
                                     <li>
                                         <a href="{{ route('roles.index') }}" class="nav-link text-white">🔐 Roles</a>
                                     </li>
-                                    
                                     <li>
                                         <a href="{{ route('users.index') }}" class="nav-link text-white">🙋 Users</a>
                                     </li>
@@ -69,18 +66,21 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Main content (only for authenticated users) -->
-                <div class="col-md-9 col-lg-10 p-4 bg-light">
-                    @yield('content')
-                </div>
             @endauth
+
+            <!-- Main content (always visible) -->
+            <div class="@auth col-md-9 col-lg-10 @else col-12 @endauth p-4 bg-light">
+                @yield('content')
+            </div>
 
         </div>
     </main>
 
-    <!-- ✅ Bootstrap Bundle JS -->
+    <!-- ✅ Bootstrap Bundle JS (includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ Include any scripts pushed from other views (e.g., DataTables) -->
+    @stack('scripts')
 
 </body>
 </html>
