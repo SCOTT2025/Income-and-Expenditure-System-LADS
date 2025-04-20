@@ -44,12 +44,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    /**
-     * Optional: Define roles relationship (if you want explicit access).
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(\Spatie\Permission\Models\Role::class, 'model_has_roles', 'model_id', 'role_id');
-    }
 }

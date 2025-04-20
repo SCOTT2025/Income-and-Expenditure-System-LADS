@@ -30,7 +30,7 @@
                                 <input type="checkbox" class="row-checkbox" value="{{ $expense->id }}">
                             </td>
                             <td>{{ $expense->id }}</td>
-                            <td>{{ $expense->expenseCategory->name ?? '-' }}</td>
+                            <td>{{ $expense->category?->name ?? '-' }}</td> <!-- ✅ Corrected line -->
                             <td>{{ $expense->entry_date }}</td>
                             <td>{{ number_format($expense->amount, 2) }}</td>
                             <td>{{ $expense->description }}</td>
