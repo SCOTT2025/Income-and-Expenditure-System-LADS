@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('income_categories', IncomeCategoryController::class);
     Route::post('income_categories/bulk-delete', [IncomeCategoryController::class, 'bulkDelete'])->name('income_categories.bulkDelete');
 
-    // ✅ Expense entries (updated)
+    // Expense entries
     Route::resource('expenses', ExpenseController::class);
     Route::post('expenses/bulk-delete', [ExpenseController::class, 'bulkDelete'])->name('expenses.bulkDelete');
 
@@ -65,8 +65,14 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('incomes', IncomeController::class);
     Route::post('incomes/bulk-delete', [IncomeController::class, 'bulkDelete'])->name('incomes.bulkDelete');
 
-    // Reports
-    Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
+    // 📊 Reports
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/monthly', [ReportController::class, 'monthly'])->name('monthly');
+        // Future reports (optional)
+        // Route::get('/weekly', [ReportController::class, 'weekly'])->name('weekly');
+        // Route::get('/daily', [ReportController::class, 'daily'])->name('daily');
+        // Route::get('/range', [ReportController::class, 'range'])->name('range');
+    });
 });
 
 // Auth scaffolding (Laravel Breeze)

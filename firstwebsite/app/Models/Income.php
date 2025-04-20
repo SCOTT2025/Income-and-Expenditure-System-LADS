@@ -16,6 +16,7 @@ class Income extends Model
         'description',
     ];
 
+    // Relationship to IncomeCategory
     public function category()
     {
         return $this->belongsTo(IncomeCategory::class, 'income_category_id');

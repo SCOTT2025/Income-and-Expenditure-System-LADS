@@ -11,26 +11,24 @@
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-bordered table-striped table-hover" id="expensesTable">
+            <table class="table table-bordered table-striped table-hover" id="expenseTable">
                 <thead>
                     <tr>
-                        <th width="10"><input type="checkbox" id="select-all"></th>
+                        <th><input type="checkbox" id="select-all"></th>
                         <th>ID</th>
                         <th>Expense Category</th>
                         <th>Entry Date</th>
                         <th>Amount</th>
                         <th>Description</th>
-                        <th></th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($expenses as $expense)
                         <tr>
-                            <td>
-                                <input type="checkbox" class="row-checkbox" value="{{ $expense->id }}">
-                            </td>
+                            <td><input type="checkbox" class="row-checkbox" value="{{ $expense->id }}"></td>
                             <td>{{ $expense->id }}</td>
-                            <td>{{ $expense->category?->name ?? '-' }}</td> <!-- ✅ Corrected line -->
+                            <td>{{ $expense->category->name ?? 'N/A' }}</td>
                             <td>{{ $expense->entry_date }}</td>
                             <td>{{ number_format($expense->amount, 2) }}</td>
                             <td>{{ $expense->description }}</td>
@@ -53,18 +51,11 @@
 @endsection
 
 @push('scripts')
-<!-- DataTables & Buttons CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
-
-<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<!-- DataTables -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
-<!-- Buttons functionality -->
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
@@ -73,36 +64,21 @@
 
 <script>
     $(function () {
-        let table = $('#expensesTable').DataTable({
+        let table = $('#expenseTable').DataTable({
             dom: 'Bfrtip',
             buttons: [
                 {
                     extend: 'excelHtml5',
-                    text: 'Excel',
+                    text: 'Export to Excel',
                     className: 'btn btn-success'
                 },
                 {
-                    extend: 'csvHtml5',
-                    text: 'CSV',
-                    className: 'btn btn-info'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    text: 'PDF',
-                    className: 'btn btn-danger'
-                },
-                {
                     extend: 'print',
-                    text: 'Print',
+                    text: 'Print Table',
                     className: 'btn btn-secondary'
-                },
-                {
-                    extend: 'colvis',
-                    text: 'Column visibility',
-                    className: 'btn btn-outline-dark'
                 }
             ],
-            order: [[1, 'asc']],
+            order: [[1, 'desc']],
             columnDefs: [
                 { orderable: false, targets: [0, 6] }
             ]
