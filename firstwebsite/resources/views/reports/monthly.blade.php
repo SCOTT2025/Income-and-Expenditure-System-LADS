@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <h3 class="mb-4">Monthly Report</h3>
+    <h3 class="mb-4">Monthly Reports</h3>
 
     <form method="GET" action="{{ route('reports.monthly') }}" class="mb-4 d-flex align-items-center gap-2">
         <input type="month" name="month" class="form-control w-auto" value="{{ $month }}">
