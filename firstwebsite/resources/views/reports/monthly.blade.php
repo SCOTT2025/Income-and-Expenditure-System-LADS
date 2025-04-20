@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <h3 class="mb-4">📊 Monthly Report</h3>
+    <h3 class="mb-4">Monthly Report</h3>
 
     <form method="GET" action="{{ route('reports.monthly') }}" class="mb-4 d-flex align-items-center gap-2">
         <input type="month" name="month" class="form-control w-auto" value="{{ $month }}">
@@ -46,7 +46,7 @@
     <!-- Data Tables -->
     <div class="row">
         <div class="col-md-6">
-            <h5>💰 Incomes</h5>
+            <h5>Incomes</h5>
             <table class="table table-bordered table-striped" id="incomeTable">
                 <thead class="table-success">
                     <tr>
@@ -72,7 +72,7 @@
         </div>
 
         <div class="col-md-6">
-            <h5>💸 Expenses</h5>
+            <h5>Expenses</h5>
             <table class="table table-bordered table-striped" id="expenseTable">
                 <thead class="table-danger">
                     <tr>
