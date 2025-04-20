@@ -4,7 +4,7 @@
 <div class="container">
     <h2 class="mb-4">Create Expense Category</h2>
 
-    <form action="{{ route('expense-categories.store') }}" method="POST">
+    <form action="{{ route('expense-categories-store') }}" method="POST">
         @csrf
 
         <div class="mb-3">

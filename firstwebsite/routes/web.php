@@ -44,14 +44,17 @@ Route::middleware(['auth'])->group(function () {
     // User management
     Route::resource('users', UserController::class);
     Route::post('users/bulk-delete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
+    
 
     // Permission management
     Route::resource('permissions', PermissionController::class);
     Route::post('permissions/bulk-delete', [PermissionController::class, 'bulkDelete'])->name('permissions.bulkDelete');
 
     // Expense Category
-    Route::resource('expense-categories', ExpenseCategoryController::class);
+    Route::resource('expense-categories', ExpenseCategoryController::class); // will automatically create index, create, store, show, edit, update, destroy routes
     Route::post('expense-categories/bulk-delete', [ExpenseCategoryController::class, 'bulkDelete'])->name('expense-categories.bulkDelete');
+    Route::post('expense-categories/save', [ExpenseCategoryController::class, 'store'])->name('expense-categories-store');
+   
 
     // Income Category
     Route::resource('income_categories', IncomeCategoryController::class);

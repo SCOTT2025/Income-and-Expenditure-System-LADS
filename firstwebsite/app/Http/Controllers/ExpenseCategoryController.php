@@ -18,29 +18,48 @@ class ExpenseCategoryController extends Controller
         return view('expense_categories.create');
     }
 
+
+
+
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        ExpenseCategory::create($request->all());
-
-        return redirect()->route('expense-categories.index')->with('success', 'Expense Category created successfully.');
+        $expenseCategory = new ExpenseCategory();
+        $expenseCategory->name = $request->name;
+        $expenseCategory->save();
+    
+        return redirect()->route('expense-categories.index')
+            ->with('success', 'Expense Category created successfully.');
     }
+
+
+
 
     public function show(ExpenseCategory $expenseCategory)
     {
         return view('expense_categories.show', compact('expenseCategory'));
     }
 
+
+
+
+
     public function edit(ExpenseCategory $expenseCategory)
     {
         return view('expense_categories.edit', compact('expenseCategory'));
     }
 
+
+
+
+
     public function update(Request $request, ExpenseCategory $expenseCategory)
     {
+        
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -50,12 +69,19 @@ class ExpenseCategoryController extends Controller
         return redirect()->route('expense-categories.index')->with('success', 'Expense Category updated successfully.');
     }
 
+
+
+
+
     public function destroy(ExpenseCategory $expenseCategory)
     {
         $expenseCategory->delete();
 
         return redirect()->route('expense-categories.index')->with('success', 'Expense Category deleted.');
     }
+
+
+
 
     public function bulkDelete(Request $request)
     {
