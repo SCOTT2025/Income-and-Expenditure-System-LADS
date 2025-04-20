@@ -52,7 +52,7 @@
                             <a href="{{ route('expenses.index') }}" class="nav-link text-white">💸 Expenses</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('income.index') }}" class="nav-link text-white">📥 Income</a>
+                            <a href="{{ route('incomes.index') }}" class="nav-link text-white">📥 Income</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('reports.monthly') }}" class="nav-link text-white">📊 Monthly Report</a>

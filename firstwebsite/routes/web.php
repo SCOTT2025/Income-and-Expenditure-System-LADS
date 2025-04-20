@@ -53,13 +53,17 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expense-categories', ExpenseCategoryController::class);
     Route::post('expense-categories/bulk-delete', [ExpenseCategoryController::class, 'bulkDelete'])->name('expense-categories.bulkDelete');
 
-    // ✅ Income Category (updated to match Expense Category structure)
+    // Income Category
     Route::resource('income_categories', IncomeCategoryController::class);
     Route::post('income_categories/bulk-delete', [IncomeCategoryController::class, 'bulkDelete'])->name('income_categories.bulkDelete');
 
-    // Expense and Income entries
+    // ✅ Expense entries (updated)
     Route::resource('expenses', ExpenseController::class);
-    Route::resource('income', IncomeController::class);
+    Route::post('expenses/bulk-delete', [ExpenseController::class, 'bulkDelete'])->name('expenses.bulkDelete');
+
+    // Income entries
+    Route::resource('incomes', IncomeController::class);
+    Route::post('incomes/bulk-delete', [IncomeController::class, 'bulkDelete'])->name('incomes.bulkDelete');
 
     // Reports
     Route::get('/monthly-report', [ReportController::class, 'monthly'])->name('reports.monthly');
