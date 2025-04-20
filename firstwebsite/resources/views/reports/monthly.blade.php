@@ -2,16 +2,51 @@
 
 @section('content')
 <div class="container-fluid">
-    <h3 class="mb-4">Monthly Report</h3>
+    <h3 class="mb-4">📊 Monthly Report</h3>
 
     <form method="GET" action="{{ route('reports.monthly') }}" class="mb-4 d-flex align-items-center gap-2">
         <input type="month" name="month" class="form-control w-auto" value="{{ $month }}">
         <button type="submit" class="btn btn-primary">Filter</button>
     </form>
 
+    <!-- Summary -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Income</h5>
+                    <p class="card-text fs-5 fw-bold">$ {{ number_format($totalIncome, 2) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-danger shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Expense</h5>
+                    <p class="card-text fs-5 fw-bold">$ {{ number_format($totalExpense, 2) }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-bg-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Net Balance</h5>
+                    <p class="card-text fs-5 fw-bold">
+                        @if($netBalance >= 0)
+                            <span class="text-success">$ {{ number_format($netBalance, 2) }}</span>
+                        @else
+                            <span class="text-danger">$ {{ number_format($netBalance, 2) }}</span>
+                        @endif
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Tables -->
     <div class="row">
         <div class="col-md-6">
-            <h5>Incomes</h5>
+            <h5>💰 Incomes</h5>
             <table class="table table-bordered table-striped" id="incomeTable">
                 <thead class="table-success">
                     <tr>
@@ -37,7 +72,7 @@
         </div>
 
         <div class="col-md-6">
-            <h5>Expenses</h5>
+            <h5>💸 Expenses</h5>
             <table class="table table-bordered table-striped" id="expenseTable">
                 <thead class="table-danger">
                     <tr>

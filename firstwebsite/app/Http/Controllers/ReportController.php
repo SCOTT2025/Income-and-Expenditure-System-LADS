@@ -23,6 +23,18 @@ class ReportController extends Controller
             ->whereBetween('entry_date', [$start, $end])
             ->get();
 
-        return view('reports.monthly', compact('month', 'incomes', 'expenses'));
+        // 🧮 Totals
+        $totalIncome = $incomes->sum('amount');
+        $totalExpense = $expenses->sum('amount');
+        $netBalance = $totalIncome - $totalExpense;
+
+        return view('reports.monthly', compact(
+            'month',
+            'incomes',
+            'expenses',
+            'totalIncome',
+            'totalExpense',
+            'netBalance'
+        ));
     }
 }
